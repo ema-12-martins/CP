@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.11.6)  16 NOV 2023 18:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.1.9)  9 JAN 2024 10:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1233,12 +1233,12 @@ line 281.
 File: T1PTSans-TLF.fd 2011/05/04 (autoinst with patch) Font definitions for T1/
 PTSans-TLF.
 ) (./Cover.tex
-<cp2324t_media/UM.jpg, id=35, 1084.05pt x 1084.05pt>
+<cp2324t_media/UM.jpg, id=43, 1084.05pt x 1084.05pt>
 File: cp2324t_media/UM.jpg Graphic file (type jpg)
 <use cp2324t_media/UM.jpg>
 Package pdftex.def Info: cp2324t_media/UM.jpg  used on input line 2.
 (pdftex.def)             Requested size: 73.97716pt x 73.97246pt.
-<cp2324t_media/EE.jpg, id=36, 1084.05pt x 1084.05pt>
+<cp2324t_media/EE.jpg, id=44, 1084.05pt x 1084.05pt>
 File: cp2324t_media/EE.jpg Graphic file (type jpg)
 <use cp2324t_media/EE.jpg>
 Package pdftex.def Info: cp2324t_media/EE.jpg  used on input line 2.
@@ -1311,54 +1311,133 @@ Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  []
 
 [2]
+LaTeX Font Info:    Trying to load font information for TS1+PTSerif-TLF on inpu
+t line 417.
+ (/usr/share/texlive/texmf-dist/tex/latex/paratype/TS1PTSerif-TLF.fd
+File: TS1PTSerif-TLF.fd 2014/02/02 Font definitions for TS1/PTSerif-TLF.
+)
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+
+Overfull \hbox (128.0374pt too wide) has occurred while \output is active
+ [][]| 
+ []
+
+[3]
 LaTeX Font Info:    Trying to load font information for T1+PTMono-TLF on input 
-line 396.
+line 515.
  (/usr/share/texlive/texmf-dist/tex/latex/paratype/T1PTMono-TLF.fd
 File: T1PTMono-TLF.fd 2014/02/02 Font definitions for T1/PTMono-TLF.
 )
-<cp2324t_media/lhs.jpg, id=70, 1557.82pt x 967.615pt>
+<cp2324t_media/lhs.jpg, id=104, 1557.82pt x 967.615pt>
 File: cp2324t_media/lhs.jpg Graphic file (type jpg)
 <use cp2324t_media/lhs.jpg>
-Package pdftex.def Info: cp2324t_media/lhs.jpg  used on input line 405.
+Package pdftex.def Info: cp2324t_media/lhs.jpg  used on input line 524.
 (pdftex.def)             Requested size: 187.78532pt x 116.62555pt.
 
 Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  [][]| 
  []
 
-[3 <./cp2324t_media/lhs.jpg>]
+[4 <./cp2324t_media/lhs.jpg>]
 Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  [][]| 
  []
 
-[4] <xymatrix 2x2 191>
-\openout7 = `cp2324t.ptb'.
+[5] <xymatrix 2x2 191>
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 636.
 
 \openout7 = `cp2324t.ptb'.
 
-
-Overfull \hbox (15.51062pt too wide) in paragraph at lines 540--549
- [][] 
- []
-
-
-Overfull \hbox (15.51062pt too wide) in paragraph at lines 540--549
- [][] 
- []
-
-
-Overfull \hbox (15.51062pt too wide) in paragraph at lines 540--549
- [][] 
- []
+\openout7 = `cp2324t.ptb'.
 
 
 Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  [][]| 
  []
 
-[5]
+[6]
 \openout7 = `cp2324t.ptb'.
 
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+
+Overfull \hbox (128.0374pt too wide) has occurred while \output is active
+ [][]| 
+ []
+
+[7]
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+
+
+LaTeX Warning: Citation `EK06' on page 8 undefined on input line 781.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+
+Overfull \hbox (15.51062pt too wide) in paragraph at lines 819--828
+ [][] 
+ []
+
+
+Overfull \hbox (15.51062pt too wide) in paragraph at lines 819--828
+ [][] 
+ []
+
+
+Overfull \hbox (15.51062pt too wide) in paragraph at lines 819--828
+ [][] 
+ []
+
+
+Overfull \hbox (128.0374pt too wide) has occurred while \output is active
+ [][]| 
+ []
+
+[8]
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+\openout7 = `cp2324t.ptb'.
+
+
+Overfull \hbox (128.0374pt too wide) has occurred while \output is active
+ [][]| 
+ []
+
+[9]
 \openout7 = `cp2324t.ptb'.
 
  (./cp2324t.ind
@@ -1366,7 +1445,7 @@ Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  [][]| 
  []
 
-[6] [7
+[10] [11
 
 
 ]) (./cp2324t.bbl
@@ -1379,22 +1458,40 @@ Overfull \hbox (128.0374pt too wide) has occurred while \output is active
  [][]| 
  []
 
-[8
+[12
 
 ] (./cp2324t.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `cp2324t.out' has not changed.
-(rerunfilecheck)             Checksum: 916C72E5140C8FFCA702FE79877BF9A9;1218.
+(rerunfilecheck)             Checksum: DA35CDC4B1C3D714246AA54FE45C0974;1793.
  ) 
 Here is how much of TeX's memory you used:
- 45026 strings out of 480171
- 971725 string characters out of 5894489
- 1519204 words of memory out of 5000000
- 62281 multiletter control sequences out of 15000+600000
- 669463 words of font info for 131 fonts, out of 8000000 for 9000
+ 45127 strings out of 480171
+ 973525 string characters out of 5894490
+ 1519582 words of memory out of 5000000
+ 62357 multiletter control sequences out of 15000+600000
+ 732087 words of font info for 152 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  99i,19n,94p,3281b,841s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
+pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exi
 st, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.3.17} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.4} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist
+, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
 , replaced by a fixed one
@@ -1404,26 +1501,28 @@ pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/paratype/ptmono_t1.enc}{/usr/sha
 re/texlive/texmf-dist/fonts/enc/dvips/paratype/ptserif_t1.enc}{/usr/share/texli
-ve/texmf-dist/fonts/enc/dvips/paratype/ptsans_t1.enc}</usr/share/texlive/texmf-
-dist/fonts/type1/paratype/ptserif/PTF55F.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/paratype/ptserif/PTF56F.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/paratype/ptmono/PTM55F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype
-/ptsans/PTS55F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype/ptsans/P
-TS56F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype/ptsans/PTS75F.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/stmaryrd/stmary9.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/xypic/xyatip10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/xy
-pic/xybtip10.pfb>
-Output written on cp2324t.pdf (9 pages, 410057 bytes).
+ve/texmf-dist/fonts/enc/dvips/paratype/ptserif_ts1.enc}{/usr/share/texlive/texm
+f-dist/fonts/enc/dvips/paratype/ptsans_t1.enc}</usr/share/texlive/texmf-dist/fo
+nts/type1/paratype/ptserif/PTF55F.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/paratype/ptserif/PTF56F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paraty
+pe/ptserif/PTF75F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype/ptmon
+o/PTM55F.pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype/ptsans/PTS55F.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/paratype/ptsans/PTS56F.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/paratype/ptsans/PTS75F.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/stmary
+rd/stmary9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/xypic/xyatip10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/xypic/xybtip10.pfb>
+Output written on cp2324t.pdf (13 pages, 456105 bytes).
 PDF statistics:
- 248 PDF objects out of 1000 (max. 8388607)
- 200 compressed objects within 2 object streams
- 21 named destinations out of 1000 (max. 500000)
- 84 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 329 PDF objects out of 1000 (max. 8388607)
+ 271 compressed objects within 3 object streams
+ 36 named destinations out of 1000 (max. 500000)
+ 100 words of extra memory for PDF output out of 10000 (max. 10000000)
 

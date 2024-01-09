@@ -270,7 +270,7 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G99}
+\group{G02}
 \studentA{xxxxxx}{Nome }
 \studentB{xxxxxx}{Nome }
 \studentC{xxxxxx}{Nome }
@@ -357,15 +357,134 @@ recomendações.
 
 \Problema
 
-\begin{center}
-\fbox{A fornecer na segunda edição deste enunciado}
-\end{center}
+Sistemas como \href{https://chat.openai.com/}{chatGPT} etc baseiam-se em
+algoritmos de aprendizagem automática que usam determinadas funções matemáticas,
+designadas \emph{activation functions} (AF), para modelar aspectos não li\-neares
+do mundo real. Uma dessas AFs é a
+\href{https://www.ml-science.com/tanh-activation-function}{tangente hiperbólica},
+definida como o quociente do seno e coseno
+\href{https://en.wikipedia.org/wiki/Hyperbolic_functions}{hiperbólicos}, 
+\begin{eqnarray}
+	\tanh x = \frac{\sinh x}{\cosh x}
+	\label{eq:tanh}
+\end{eqnarray}
+podendo estes ser definidos pelas seguintes \taylor{séries de Taylor}:
+\begin{eqnarray}
+\start
+	\sum_{k=0}^\infty \frac{x^{2k+1}}{(2k+1)!}=\sinh x
+	\label{eq:sinh}
+\more
+	\sum_{k=0}^\infty \frac{x^{2k}}{(2k)!}=\cosh x
+	\nonumber
+\end{eqnarray}
+
+Interessa que estas funções sejam implementadas de forma muito eficiente,
+desdobrando-as em ope\-rações aritméticas elementares. Isso pode ser conseguido
+através da chamada \pd{programação dinâmica} que, em \cp{Cálculo de Programas},
+é feita de forma \emph{correct-by-construction} derivando-se ciclos-\textbf{for} via
+lei de recursividade mútua generalizada a tantas funções quanto necessário
+--- ver o anexo \ref{sec:mr}. 
+
+O objectivo desta questão é codificar como um ciclo-\textsf{for} (em Haskell) a função
+\begin{eqnarray}
+	snh\ x\ i = \sum_{k=0}^i \frac{x^{2k+1}}{(2k+1)!}
+\end{eqnarray}
+que implementa \ensuremath{\Varid{sinh}\;\Varid{x}}, uma das funções de \ensuremath{\Varid{tanh}\;\Varid{x}} (\ref{eq:tanh}), através
+da soma das \ensuremath{\Varid{i}} primeiras parcelas da sua série (\ref{eq:sinh}).
+
+Deverá ser seguida a regra prática do anexo \ref{sec:mr} e documentada a
+solução proposta com todos os cálculos que se fizerem.
 
 \Problema
 
-\begin{center}
-\fbox{A fornecer na segunda edição deste enunciado}
-\end{center}
+Uma empresa de transportes urbanos pretende fornecer um serviço de previsão
+de atrasos dos seus autocarros que esteja sempre actual, com base em \emph{feedback}
+dos seus paassageiros. Para isso, desenvolveu uma \emph{app} que instala
+num telemóvel um botão que indica coordenadas GPS a um serviço central, de
+forma anónima, sugerindo que os passageiros o usem preferencialmente sempre
+que o autocarro onde vão chega a uma paragem.
+
+Com base nesses dados, outra funcionalidade da \emph{app} informa os utentes
+do serviço sobre a probabilidade do atraso que possa haver entre duas paragens
+(partida e chegada) de uma qualquer linha.
+
+Pretende-se implementar esta segunda funcionalidade assumindo disponíveis
+os dados da primeira. No que se segue, ir-se-á trabalhar sobre um modelo
+intencionalmente \emph{muito simplificado} deste sistema, em que se usará
+o mónade das distribuições probabilísticas (ver o anexo \ref{sec:probabilities}).
+Ter-se-á, então:
+\begin{itemize}
+\item paragens de autocarro
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Stop}\mathrel{=}\Conid{S0}\mid \Conid{S1}\mid \Conid{S2}\mid \Conid{S3}\mid \Conid{S4}\mid \Conid{S5}\;\mathbf{deriving}\;(\Conid{Show},\Conid{Eq},\Conid{Ord},\Conid{Enum}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que formam a linha \ensuremath{[\mskip1.5mu \Conid{S0}\mathinner{\ldotp\ldotp}\Conid{S5}\mskip1.5mu]} assumindo a ordem determinada pela instância
+de \ensuremath{\Conid{Stop}} na classe \ensuremath{\Conid{Enum}};
+\item	segmentos da linha, isto é, percursos entre duas paragens consecutivas:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{type}\;\Conid{Segment}\mathrel{=}(\Conid{Stop},\Conid{Stop}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\item os dados obtidos a partir da \emph{app} dos passageiros que, após algum
+processamento, ficam disponíveis sob a forma de pares
+	\emph{(segmento, atraso observado)}:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{dados}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\Conid{Delay})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+(Ver no apêndice \ref{sec:codigo}, página \pageref{pg:dados}, uma pequena amostra
+destes dados.)
+\end{itemize}
+A partir destes dados, há que:
+\begin{itemize}
+\item	gerar a base de dados probabilística
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{db}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\fun{Dist}\;\Conid{Delay})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que regista, estatisticamente, a probabilidade dos atrasos (\ensuremath{\Conid{Delay}}) que
+podem afectar cada segmento da linha. Recomenda-se aqui a definição de uma
+função genérica
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mkdist}\mathbin{::}\Conid{Eq}\;\Varid{a}\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \fun{Dist}\;\Varid{a}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que faça o sumário estatístico de uma qualquer lista finita, gerando a
+distribuição de ocorrência dos seus elementos.
+\item
+com base em \ensuremath{\Varid{db}}, definir a função probabilística
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{delay}\mathbin{::}\Conid{Segment}\to \fun{Dist}\;\Conid{Delay}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que dará, para cada segmento, a respectiva distribuição de atrasos.
+\end{itemize}
+Finalmente, o objectivo principal é definir a função probabilística:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{pdelay}\mathbin{::}\Conid{Stop}\to \Conid{Stop}\to \fun{Dist}\;\Conid{Delay}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\ensuremath{\Varid{pdelay}\;\Varid{a}\;\Varid{b}} deverá informar qualquer utente que queira ir da paragem \ensuremath{\Varid{a}} até à
+paragem \ensuremath{\Varid{b}} de uma dada linha sobre a probabilidade de atraso acumulado no
+total do percurso \ensuremath{[\mskip1.5mu \Varid{a}\mathinner{\ldotp\ldotp}\Varid{b}\mskip1.5mu]}.
+
+Valorizar-se-ão as soluções que usem funcionalidades monádicas genéricas
+estudadas na disciplina e que sejam elegantes, isto é, poupem código desnecessário.
 
 \newpage
 \part*{Anexos}
@@ -411,7 +530,7 @@ a seguir se descreve.
 
 \section{Docker} \label{sec:docker}
 
-Recomenda-se o uso de um \container\ Docker que deverá ser gerado a partir do ficheiro
+Recomenda-se o uso do \container\ cuja imagem é gerada pelo \Docker\ a partir do ficheiro
 \texttt{Dockerfile} que se encontra na diretoria que resulta de descompactar
 \texttt{cp2324t.zip}. Este \container\ deverá ser usado na execução
 do \GHCi\ e dos comandos relativos ao \Latex. (Ver também a \texttt{Makefile}
@@ -514,6 +633,166 @@ Os diagramas podem ser produzidos recorrendo à \emph{package} \Xymatrix, por ex
 }
 \end{eqnarray*}
 
+\section{Regra prática para a recursividade mútua em \ensuremath{\N_0}}\label{sec:mr}
+
+Nesta disciplina estudou-se como fazer \pd{programação dinâmica} por cálculo,
+recorrendo à lei de recursividade mútua.\footnote{Lei (\ref{eq:fokkinga})
+em \cite{Ol18}, página \pageref{eq:fokkinga}.}
+
+Para o caso de funções sobre os números naturais (\ensuremath{\N_0}, com functor \ensuremath{\fun F \;\Conid{X}\mathrel{=}\mathrm{1}\mathbin{+}\Conid{X}}) é fácil derivar-se da lei que foi estudada uma
+	\emph{regra de algibeira}
+	\label{pg:regra}
+que se pode ensinar a programadores que não tenham estudado
+\cp{Cálculo de Programas}. Apresenta-se de seguida essa regra, tomando como
+exemplo o cálculo do ciclo-\textsf{for} que implementa a função de Fibonacci,
+recordar o sistema:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{fib}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{fib}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{f}\;\Varid{n}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{fib}\;\Varid{n}\mathbin{+}\Varid{f}\;\Varid{n}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Obter-se-á de imediato
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{fib'}\mathrel{=}\p1\comp \for{\Varid{loop}}\ {\Varid{init}}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{4}{}\<[4]%
+\>[4]{}\Varid{loop}\;(\Varid{fib},\Varid{f})\mathrel{=}(\Varid{f},\Varid{fib}\mathbin{+}\Varid{f}){}\<[E]%
+\\
+\>[B]{}\hsindent{4}{}\<[4]%
+\>[4]{}\Varid{init}\mathrel{=}(\mathrm{1},\mathrm{1}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+usando as regras seguintes:
+\begin{itemize}
+\item	O corpo do ciclo \ensuremath{\Varid{loop}} terá tantos argumentos quanto o número de funções mutuamente recursivas.
+\item	Para as variáveis escolhem-se os próprios nomes das funções, pela ordem
+que se achar conveniente.\footnote{Podem obviamente usar-se outros símbolos, mas numa primeira leitura
+dá jeito usarem-se tais nomes.}
+\item	Para os resultados vão-se buscar as expressões respectivas, retirando a variável \ensuremath{\Varid{n}}.
+\item	Em \ensuremath{\Varid{init}} coleccionam-se os resultados dos casos de base das funções, pela mesma ordem.
+\end{itemize}
+Mais um exemplo, envolvendo polinómios do segundo grau $ax^2 + b x + c$ em \ensuremath{\N_0}.
+Seguindo o método estudado nas aulas\footnote{Secção 3.17 de \cite{Ol18} e tópico
+\href{https://www4.di.uminho.pt/~jno/media/cp/}{Recursividade mútua} nos vídeos de apoio às aulas teóricas.},
+de $f\ x = a x^2 + b x + c$ derivam-se duas funções mutuamente recursivas:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\Varid{c}{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{f}\;\Varid{n}\mathbin{+}\Varid{k}\;\Varid{n}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{k}\;\mathrm{0}\mathrel{=}\Varid{a}\mathbin{+}\Varid{b}{}\<[E]%
+\\
+\>[B]{}\Varid{k}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{k}\;\Varid{n}\mathbin{+}\mathrm{2}\;\Varid{a}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Seguindo a regra acima, calcula-se de imediato a seguinte implementação, em Haskell:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f'}\;\Varid{a}\;\Varid{b}\;\Varid{c}\mathrel{=}\p1\comp \for{\Varid{loop}}\ {\Varid{init}}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{loop}\;(\Varid{f},\Varid{k})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k},\Varid{k}\mathbin{+}\mathrm{2}\mathbin{*}\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{init}\mathrel{=}(\Varid{c},\Varid{a}\mathbin{+}\Varid{b}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\section{O mónade das distribuições probabilísticas} \label{sec:probabilities}
+Mónades são functores com propriedades adicionais que nos permitem obter
+efeitos especiais em progra\-mação. Por exemplo, a biblioteca \Probability\
+oferece um mónade para abordar problemas de probabilidades. Nesta biblioteca,
+o conceito de distribuição estatística é captado pelo tipo
+\begin{eqnarray}
+     \ensuremath{\mathbf{newtype}\;\fun{Dist}\;\Varid{a}\mathrel{=}\Conid{D}\;\{\mskip1.5mu \Varid{unD}\mathbin{::}[\mskip1.5mu (\Varid{a},\Conid{ProbRep})\mskip1.5mu]\mskip1.5mu\}}
+     \label{eq:Dist}
+\end{eqnarray}
+em que \ensuremath{\Conid{ProbRep}} é um real de \ensuremath{\mathrm{0}} a \ensuremath{\mathrm{1}}, equivalente a uma escala de $0$ a
+$100 \%$.
+
+Cada par \ensuremath{(\Varid{a},\Varid{p})} numa distribuição \ensuremath{\Varid{d}\mathbin{::}\fun{Dist}\;\Varid{a}} indica que a probabilidade
+de \ensuremath{\Varid{a}} é \ensuremath{\Varid{p}}, devendo ser garantida a propriedade de  que todas as probabilidades
+de \ensuremath{\Varid{d}} somam $100\%$.
+Por exemplo, a seguinte distribuição de classificações por escalões de $A$ a $E$,
+\[
+\begin{array}{ll}
+A & \rule{2mm}{3pt}\ 2\%\\
+B & \rule{12mm}{3pt}\ 12\%\\
+C & \rule{29mm}{3pt}\ 29\%\\
+D & \rule{35mm}{3pt}\ 35\%\\
+E & \rule{22mm}{3pt}\ 22\%\\
+\end{array}
+\]
+será representada pela distribuição
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{d1}\mathbin{::}\fun{Dist}\;\Conid{Char}{}\<[E]%
+\\
+\>[B]{}\Varid{d1}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\text{\ttfamily 'A'},\mathrm{0.02}),(\text{\ttfamily 'B'},\mathrm{0.12}),(\text{\ttfamily 'C'},\mathrm{0.29}),(\text{\ttfamily 'D'},\mathrm{0.35}),(\text{\ttfamily 'E'},\mathrm{0.22})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que o \GHCi\ mostrará assim:
+\begin{Verbatim}[fontsize=\small]
+'D'  35.0%
+'C'  29.0%
+'E'  22.0%
+'B'  12.0%
+'A'   2.0%
+\end{Verbatim}
+É possível definir geradores de distribuições, por exemplo distribuições \emph{uniformes},
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{d2}\mathrel{=}\Varid{uniform}\;(\Varid{words}\;\text{\ttfamily \char34 Uma~frase~de~cinco~palavras\char34}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+isto é
+\begin{Verbatim}[fontsize=\small]
+     "Uma"  20.0%
+   "cinco"  20.0%
+      "de"  20.0%
+   "frase"  20.0%
+"palavras"  20.0%
+\end{Verbatim}
+distribuição \emph{normais}, eg.\
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{d3}\mathrel{=}\Varid{normal}\;[\mskip1.5mu \mathrm{10}\mathinner{\ldotp\ldotp}\mathrm{20}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+etc.\footnote{Para mais detalhes ver o código fonte de \Probability, que é uma adaptação da
+biblioteca \PFP\ (``Probabilistic Functional Programming''). Para quem quiser saber mais
+recomenda-se a leitura do artigo \cite{EK06}.}
+\ensuremath{\fun{Dist}} forma um \textbf{mónade} cuja unidade é \ensuremath{\Varid{return}\;\Varid{a}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\Varid{a},\mathrm{1})\mskip1.5mu]} e cuja composição de Kleisli
+é (simplificando a notação)
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}(\Varid{f}\kcomp \Varid{g})\;\Varid{a}\mathrel{=}[\mskip1.5mu (\Varid{y},\Varid{q}\mathbin{*}\Varid{p})\mid (\Varid{x},\Varid{p})\leftarrow \Varid{g}\;\Varid{a},(\Varid{y},\Varid{q})\leftarrow \Varid{f}\;\Varid{x}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+em que \ensuremath{\Varid{g}\mathbin{:}\Conid{A}\to \fun{Dist}\;\mathit B} e \ensuremath{\Varid{f}\mathbin{:}\mathit B\to \fun{Dist}\;\mathit C} são funções \textbf{monádicas} que representam
+\emph{computações probabilísticas}.
+
+Este mónade é adequado à resolução de problemas de \emph{probabilidades e estatística} usando programação funcional, de forma elegante e como caso particular da programação monádica.
+
 \section{Código fornecido}\label{sec:codigo}
 
 \subsection*{Problema 1}
@@ -545,6 +824,57 @@ Os diagramas podem ser produzidos recorrendo à \emph{package} \Xymatrix, por ex
 \>[B]{}\Varid{test5}\mathrel{=}\Varid{reverseVowels}\;\text{\ttfamily \char34 ácidos\char34}\equiv \text{\ttfamily \char34 ocidás\char34}{}\<[E]%
 \\
 \>[B]{}\Varid{test6}\mathrel{=}\Varid{reverseByPredicate}\;\Varid{even}\;[\mskip1.5mu \mathrm{1}\mathinner{\ldotp\ldotp}\mathrm{20}\mskip1.5mu]\equiv [\mskip1.5mu \mathrm{1},\mathrm{20},\mathrm{3},\mathrm{18},\mathrm{5},\mathrm{16},\mathrm{7},\mathrm{14},\mathrm{9},\mathrm{12},\mathrm{11},\mathrm{10},\mathrm{13},\mathrm{8},\mathrm{15},\mathrm{6},\mathrm{17},\mathrm{4},\mathrm{19},\mathrm{2}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection*{Problema 3}
+
+Nenhum código é fornecido neste problema.
+
+\subsection*{Problema 4}
+Os atrasos, medidos em minutos, são inteiros:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{type}\;\Conid{Delay}\mathrel{=}\mathbb{Z}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Amostra de dados apurados por passageiros: \label{pg:dados}
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{dados}\mathrel{=}[\mskip1.5mu ((\Conid{S0},\Conid{S1}),\mathrm{0}),((\Conid{S0},\Conid{S1}),\mathrm{2}),((\Conid{S0},\Conid{S1}),\mathrm{0}),((\Conid{S0},\Conid{S1}),\mathrm{3}),((\Conid{S0},\Conid{S1}),\mathrm{3}),{}\<[E]%
+\\
+\>[B]{}\hsindent{10}{}\<[10]%
+\>[10]{}((\Conid{S1},\Conid{S2}),\mathrm{0}),((\Conid{S1},\Conid{S2}),\mathrm{2}),((\Conid{S1},\Conid{S2}),\mathrm{1}),((\Conid{S1},\Conid{S2}),\mathrm{1}),((\Conid{S1},\Conid{S2}),\mathrm{4}),{}\<[E]%
+\\
+\>[B]{}\hsindent{10}{}\<[10]%
+\>[10]{}((\Conid{S2},\Conid{S3}),\mathrm{2}),((\Conid{S2},\Conid{S3}),\mathrm{2}),((\Conid{S2},\Conid{S3}),\mathrm{4}),((\Conid{S2},\Conid{S3}),\mathrm{0}),((\Conid{S2},\Conid{S3}),\mathrm{5}),{}\<[E]%
+\\
+\>[B]{}\hsindent{10}{}\<[10]%
+\>[10]{}((\Conid{S3},\Conid{S4}),\mathrm{2}),((\Conid{S3},\Conid{S4}),\mathrm{3}),((\Conid{S3},\Conid{S4}),\mathrm{5}),((\Conid{S3},\Conid{S4}),\mathrm{2}),((\Conid{S3},\Conid{S4}),\mathrm{0}),{}\<[E]%
+\\
+\>[B]{}\hsindent{10}{}\<[10]%
+\>[10]{}((\Conid{S4},\Conid{S5}),\mathrm{0}),((\Conid{S4},\Conid{S5}),\mathrm{5}),((\Conid{S4},\Conid{S5}),\mathrm{0}),((\Conid{S4},\Conid{S5}),\mathrm{7}),((\Conid{S4},\Conid{S5}),\mathbin{-}\mathrm{1})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\emph{``Funcionalização'' de listas}:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mkf}\mathbin{::}\Conid{Eq}\;\Varid{a}\Rightarrow [\mskip1.5mu (\Varid{a},\Varid{b})\mskip1.5mu]\to \Varid{a}\to \Conid{Maybe}\;\Varid{b}{}\<[E]%
+\\
+\>[B]{}\Varid{mkf}\mathrel{=}\Varid{flip}\;\Varid{\Conid{Prelude}.lookup}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Ausência de qualquer atraso:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{instantaneous}\mathbin{::}\fun{Dist}\;\Conid{Delay}{}\<[E]%
+\\
+\>[B]{}\Varid{instantaneous}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\mathrm{0},\mathrm{1})\mskip1.5mu]{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -583,6 +913,41 @@ que sejam necessárias.
 \>[B]{}\Varid{reverseByPredicate}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{reverseByPredicate}\;\Varid{p}\mathrel{=}\bot {}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection*{Problema 3}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{snh}\;\Varid{x}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\Varid{worker}\mathrel{=}\for{(\Varid{loop}\;\Varid{x})}\ {(\Varid{start}\;\Varid{x})}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\Varid{wrapper}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{loop}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{start}\mathrel{=}\bot {}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection*{Problema 4}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{db}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{mkdist}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{delay}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{pdelay}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 

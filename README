@@ -1,0 +1,16 @@
+Para meter geral:
+
+sudo usermod -aG docker <nomepc>
+newgrp docker
+groups
+sudo systemctl restart docker
+docker
+
+Para meter no teu pc:
+docker build -t cp2324t .
+docker ps -a
+docker image ls
+
+Para atualizar:
+docker run -v ${PWD}:/cp2324t -it cp2324t
+docker ps -a
