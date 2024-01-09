@@ -118,7 +118,7 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G02}
+\group{G99}
 \studentA{xxxxxx}{Nome }
 \studentB{xxxxxx}{Nome }
 \studentC{xxxxxx}{Nome }
@@ -177,7 +177,7 @@ import Svg hiding (for)
 import Control.Monad
 import Control.Applicative hiding ((<|>))
 import System.Process
-import Data.Charzzz
+import Data.Char
 import Control.Concurrent
 
 main = undefined
