@@ -7,9 +7,9 @@ rotl :: [[a]]->[[a]]
 rotl = transpose . map reverse
 
 
-{- matrot2 :: Eq a => [[a]] -> [a]
-matrot2 [] = []
-matrot2 (h:t) = conc(h, matrot2 (rotl t)) -}
+{- matrot :: Eq a => [[a]] -> [a]
+matrot [] = []
+matrot (h:t) = conc(h, matrot (rotl t)) -}
 
-matrot2 :: Eq a => [[a]] -> [a]
-matrot2 = either nil (conc . (id >< matrot2).(id><rotl)) . outList
+matrot :: Eq a => [[a]] -> [a]
+matrot = either nil (conc.(id >< matrot).(id><rotl)).outList
