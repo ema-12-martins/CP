@@ -1,3 +1,5 @@
+module Q1 where
+    
 import Data.List
 import Cp
 import List (outList)
