@@ -4,7 +4,8 @@ import Data.List
 import Cp
 import List
 
-{- matrot :: Eq a => [[a]] -> [a]
+{- Versao PointWise
+matrot :: Eq a => [[a]] -> [a]
 matrot [] = []
 matrot (h:t) = conc(h, matrot (rotl t)) -}
 
