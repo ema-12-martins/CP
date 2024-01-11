@@ -12,5 +12,5 @@ snh' x = id . worker where
         wrapper(a,_,_) = a
         worker = for (loop x) (start x)
 
-loop n (f,k,g)= (f + k,k * ((n ^ 2)/((g+2)*(g+3))),g+1)
-start n = (n,n,0)
+loop x (f,k,g)= (f + k,k * ((x ^ 2)/((g+1)*(g+2))),g+2)
+start x = (x,(x ^ 3)/6,3)
