@@ -12,4 +12,4 @@ rotl :: [[a]]->[[a]]
 rotl = transpose . map reverse
 
 matrot :: Eq a => [[a]] -> [a]
-matrot = either nil (conc.(id >< matrot).(id><rotl)) .outList
+matrot = either nil (conc.(id ><(matrot.rotl))) .outList
