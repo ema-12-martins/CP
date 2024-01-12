@@ -48,6 +48,8 @@ tentativa_probabilidades :: Eq a => [(a, Delay)] -> [(a, Float)]
 tentativa_probabilidades [] = []
 tentativa_probabilidades l = probabilidadePares (concatMap mkdist (groupTuples l))
 
+bd :: [(Segment, Delay)] -> Dist Segment
+bd l = D (tentativa_probabilidades l)
 
 --Gerar base de dados de probabilidades
 {- b :: [(Segment,Dist Delay)] -}
