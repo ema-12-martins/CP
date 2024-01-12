@@ -15,12 +15,12 @@ dados = [((S0,S1),0),((S0,S1),2),((S0,S1),0),((S0,S1),3),((S0,S1),3),
     ((S4,S5),0),((S4,S5),5),((S4,S5),0),((S4,S5),7),((S4,S5),-1)]
 
 ---------- Exercicio propriamente dito -------------------
-
 groupTuples :: [(Segment, Delay)] -> [[(Segment, Delay)]]
 groupTuples = groupBy (\(x, _) (y, _) -> x == y)
 
-aux :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
-aux lista = [(fst (head lista),distribuicao)]
+
+dbDistAux :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
+dbDistAux lista = [(fst (head lista),distribuicao)]
   where
     delays = map snd lista
     delaysWithout = nub delays
@@ -28,25 +28,23 @@ aux lista = [(fst (head lista),distribuicao)]
     countOccurrences item list = length (filter (== item) list)
     distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
 
-gera_bd :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
-gera_bd list = concatMap aux (groupTuples list)
+
+dbDist :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
+dbDist list = concatMap dbDistAux (groupTuples list)
+
 
 --Gerar base de dados de probabilidades
-bd :: [(Segment,Dist Delay)]
-bd = gera_bd dados
+db :: [(Segment,Dist Delay)]
+db = dbDist dados
 
 
--- Com a bd, definir funcao de probabilidade
+--Dar a distribuicao de delay num segmento
 delay :: Segment -> Dist Delay
-delay seg = case lookup seg bd of
+delay seg = case lookup seg db of
               Just dist -> dist
-              Nothing   -> D []
-        where
-            bd = gera_bd dados
+              Nothing   -> D [] 
 
---Dar o delay acomulado do percurso
+
+--Dar a distribuicao de delay entre duas paragens
 pdelay :: Stop -> Stop -> Dist Delay
 pdelay s1 s2 = delay (s1,s2)
-
-
-
