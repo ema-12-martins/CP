@@ -1,3 +1,4 @@
+module Q4 where
 import System.Random
 import Probability
 import Data.List

@@ -1,3 +1,4 @@
+module Q3 where
 import Data.List
 import Cp
 import Nat
