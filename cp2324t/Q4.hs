@@ -28,22 +28,25 @@ aux lista = [(fst (head lista),distribuicao)]
     countOccurrences item list = length (filter (== item) list)
     distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
 
+gera_bd :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
+gera_bd list = concatMap aux (groupTuples list)
+
 --Gerar base de dados de probabilidades
-bd :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
-bd list = concatMap aux (groupTuples list)
+bd :: [(Segment,Dist Delay)]
+bd = gera_bd dados
+
 
 -- Com a bd, definir funcao de probabilidade
 delay :: Segment -> Dist Delay
-
-
+delay seg = case lookup seg bd of
+              Just dist -> dist
+              Nothing   -> D []
+        where
+            bd = gera_bd dados
 
 --Dar o delay acomulado do percurso
-{- pdelay :: Stop -> Stop -> Dist Delay
-pedelay x x = return 0
-pedelay x y = do{
-    x <- delay;
-    y <- pedelay 
-} -}
+pdelay :: Stop -> Stop -> Dist Delay
+pdelay s1 s2 = delay (s1,s2)
 
 
 
