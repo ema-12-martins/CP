@@ -19,5 +19,6 @@ snh' x = wrapper . worker where
 
 loop :: Fractional c => c -> (c, c, c) -> (c, c, c)
 loop x (f,k,g)= (f + k,k * ((x ^ 2)/((g+1)*(g+2))),g+2)
+
 start :: (Fractional b, Num c) => b -> (b, b, c)
 start x = (x,(x ^ 3)/6,3)
