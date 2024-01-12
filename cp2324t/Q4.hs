@@ -28,20 +28,25 @@ instantaneous = D [(0,1)]
 ---------- Exercicio propriamente dito -------------------
 
 -- Faz sumario estatisticas e qualquer lista finita, gerando a distribuicao dos seus elementos
-mkdist :: Eq a => [(a,Int)] -> [(a,Float)]
+
+groupTuples :: Eq a => [(a, b)] -> [[(a, b)]]
+groupTuples = groupBy (\(x, _) (y, _) -> x == y)
+
+mkdist :: Eq a => [(a, Delay)] -> [(a, Float)]
 mkdist [] = []
 mkdist l = [(fst (head l), probabilidade)]
          where atraso_maior_que_zero = length (filter (\(_, t) -> t > 0) l)
                total_elementos = length l
                probabilidade = fromIntegral atraso_maior_que_zero / fromIntegral total_elementos
 
+probabilidadePares :: Eq a => [(a, Float)] -> [(a, Float)]
+probabilidadePares lista = map (\(x, y) -> (x, y / total)) lista
+  where
+    total = sum (map snd lista)
 
-groupTuples :: Eq a => [(a, b)] -> [[(a, b)]]
-groupTuples = groupBy (\(x, _) (y, _) -> x == y)
-
+tentativa_probabilidades :: Eq a => [(a, Delay)] -> [(a, Float)]
 tentativa_probabilidades [] = []
-tentativa_probabilidades l = concatMap mkdist (groupTuples l)
-
+tentativa_probabilidades l = probabilidadePares (concatMap mkdist (groupTuples l))
 
 
 --Gerar base de dados de probabilidades
