@@ -2,20 +2,6 @@ module Q2 where
 import Cp
 import List
 
-
-{- Versao PointWise Errada
-reverseByPredicate :: (a -> Bool) -> [a] -> [a]
-reverseByPredicate p [] = []
-reverseByPredicate p (h:t)  |p h = reverseByPredicate p t ++ [h]
-                            |otherwise = h: reverseByPredicate p t -}
-
-{- Versao PointFree Errada
-reverseByPredicate :: (a -> Bool) -> [a] -> [a]
-reverseByPredicate p = either nil (cond (p.p1)
-    (conc.split (reverseByPredicate p.p2) (singl.p1))
-    (cons.split p1 (reverseByPredicate p.p2))) .outList -}
-
-
 -- Predicado para vogais
 isVowel :: Char -> Bool
 isVowel c = c `elem` "aeiouAEIOU"
@@ -23,9 +9,14 @@ isVowel c = c `elem` "aeiouAEIOU"
 reverseByPredicate :: (a -> Bool) -> [a] -> [a]
 reverseByPredicate p = rebuildList p.(id><filter p).split id id
 
-
+{- 
 rebuildList :: (a -> Bool) -> ([a],[a]) -> [a]
 rebuildList _ ([],_) = []
-rebuildList p (h:t,listPredicado)
-        | p h = last listPredicado : rebuildList p (t,init listPredicado)
-        | otherwise = h : rebuildList p (t,listPredicado)
+rebuildList p (list,listPredicado)
+        | p (head list) = cons (last listPredicado,rebuildList p (tail list,init listPredicado))
+        | otherwise = cons (head list,rebuildList p (tail list,listPredicado)) -}
+
+rebuildList :: (a -> Bool) -> ([a], [a]) -> [a]
+rebuildList p = cond (p.head.p1)
+        (cons.(last><rebuildList p.(tail><init)).split p2 id)
+        (cons.(head><rebuildList p.(tail><id)).split p1 id)
