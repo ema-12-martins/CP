@@ -931,11 +931,16 @@ Ausência de qualquer atraso:
     & 
     A^* \ar[ld]_{id} \ar[d]_{<id,id>} \ar[rd]^{id} 
     \\
-    D \ar[r]_{p1} 
+     A^*\ar[r]_{p1} 
     & 
-    C  
+    A^* \, X \, A^* \ar[d]_{id \, X \, filter \, p \,}
     &
-    B \ar[l]^{p2}
+    A^* \ar[l]^{p2}
+    \\
+     &
+     A^* \, X \, A^* \ar[d]_{rebuildList \, p \,}
+     \\
+     & A^*
 }
 \end{eqnarray*}
 
