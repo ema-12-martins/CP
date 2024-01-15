@@ -119,9 +119,9 @@
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
 \group{G99}
-\studentA{xxxxxx}{Nome }
-\studentB{xxxxxx}{Nome }
-\studentC{xxxxxx}{Nome }
+\studentA{A97678}{Ema Maria Monteiro Martins}
+\studentB{A97455}{Henrique Nuno Marinho Malheiro}
+\studentC{A100547}{José Eduardo Silva Monteiro Santos Oliveira}
 
 %==============================================================================%
 
@@ -672,20 +672,31 @@ instantaneous = D [ (0,1) ]
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
-Os alunos devem colocar neste anexo as suas soluções para os exercícios
-propostos, de acordo com o ``layout'' que se fornece.
-Não podem ser alterados os nomes ou tipos das funções dadas, mas pode ser
-adicionado texto ao anexo, bem como diagramas e/ou outras funções auxiliares
-que sejam necessárias.
 
 \noindent
-\textbf{Importante}: Não pode ser alterado o texto deste ficheiro fora deste anexo.
-
 \subsection*{Problema 1}
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    (A^*)^*
+           \ar[d]_{|rotl|}
+           \ar[r]^-{|outList|}
+&
+     1 + A^* X (A^*)^* 
+           \ar[d]^-{|id + id X rotl|}
+\\
+     1 + A^* X (A^*)^*
+&
+     (A^*)^*
+           \ar[l]^-{|inList|}
+}
+\end{eqnarray*}
 
 \begin{code}
-matrot:: Eq a => [[a]] -> [a]
-matrot= undefined
+rotl :: [[a]]->[[a]]
+rotl = transpose . map reverse
+
+matrot :: Eq a => [[a]] -> [a]
+matrot = hyloList (either nil conc) (recList rotl.outList)
 \end{code}
 
 \subsection*{Problema 2}

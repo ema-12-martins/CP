@@ -270,10 +270,10 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G02}
-\studentA{xxxxxx}{Nome }
-\studentB{xxxxxx}{Nome }
-\studentC{xxxxxx}{Nome }
+\group{G99}
+\studentA{A97678}{Ema Maria Monteiro Martins}
+\studentB{A97455}{Henrique Nuno Marinho Malheiro}
+\studentC{A100547}{José Eduardo Silva Monteiro Santos Oliveira}
 
 %==============================================================================%
 
@@ -881,23 +881,35 @@ Ausência de qualquer atraso:
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
-Os alunos devem colocar neste anexo as suas soluções para os exercícios
-propostos, de acordo com o ``layout'' que se fornece.
-Não podem ser alterados os nomes ou tipos das funções dadas, mas pode ser
-adicionado texto ao anexo, bem como diagramas e/ou outras funções auxiliares
-que sejam necessárias.
 
 \noindent
-\textbf{Importante}: Não pode ser alterado o texto deste ficheiro fora deste anexo.
-
 \subsection*{Problema 1}
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    (A^*)^*
+           \ar[d]_{\ensuremath{\Varid{rotl}}}
+           \ar[r]^-{\ensuremath{\Varid{outList}}}
+&
+     1 + A^* X (A^*)^* 
+           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}\;\Conid{X}\;\Varid{rotl}}}
+\\
+     1 + A^* X (A^*)^*
+&
+     (A^*)^*
+           \ar[l]^-{\ensuremath{\Varid{inList}}}
+}
+\end{eqnarray*}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{rotl}\mathbin{::}[\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{rotl}\mathrel{=}\Varid{transpose}\comp \map \;\Varid{reverse}{}\<[E]%
+\\[\blanklineskip]%
 \>[B]{}\Varid{matrot}\mathbin{::}\Conid{Eq}\;\Varid{a}\Rightarrow [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
-\>[B]{}\Varid{matrot}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{matrot}\mathrel{=}\Varid{hyloList}\;\alt{\Varid{nil}}{\mathsf{conc}}\;(\Varid{recList}\;\Varid{rotl}\comp \Varid{outList}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
