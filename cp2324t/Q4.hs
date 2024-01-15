@@ -27,7 +27,8 @@ dbDistAux lista = do
   let delays = map snd lista
       delaysWithout = nub delays
       tamanho = length lista
-      distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
+      probDelay delay = fromIntegral (countOccurrences delay delays) / fromIntegral tamanho
+      distribuicao = D [(delay,probDelay delay) | delay <- delaysWithout]
 
   return (fst (head lista), distribuicao)
 

@@ -270,7 +270,7 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G99}
+\group{G04}
 \studentA{A97678}{Ema Maria Monteiro Martins}
 \studentB{A97455}{Henrique Nuno Marinho Malheiro}
 \studentC{A100547}{José Eduardo Silva Monteiro Santos Oliveira}
@@ -1025,6 +1025,14 @@ Relativamente ao rebuildList, o mesmo itera até à primeira lista do produto es
 \end{hscode}\resethooks
 
 \subsection*{Problema 3}
+\begin{eqnarray} 
+f \, 0 \, = x \\
+f \, (n+1) \, = (f \, n\,) + (f \, k \,) \\
+k \, 0 \, = \frac{x^3}{6} \\
+k \, (n+1) \, = k \, n \, \cdot \frac{x^2}{((g\, n \,)+1)((g \, n \,)+2)} \\
+g \, 0 \, = 3 \\
+g \, (n+1) \, = (g \, n \,) + 2 \\
+\end{eqnarray}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1033,14 +1041,14 @@ Relativamente ao rebuildList, o mesmo itera até à primeira lista do produto es
 \>[B]{}\Varid{snh}\;\Varid{x}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\Varid{worker}\mathrel{=}\for{(\Varid{loop}\;\Varid{x})}\ {(\Varid{start}\;\Varid{x})}{}\<[E]%
+\>[9]{}\Varid{worker}\mathrel{=}\for{\Varid{loop}\;\Varid{x}}\ {\Varid{start}\;\Varid{x}}{}\<[E]%
 \\
 \>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\Varid{wrapper}\mathrel{=}\bot {}\<[E]%
+\>[9]{}\Varid{wrapper}\;(\Varid{a},\anonymous ,\anonymous )\mathrel{=}\Varid{a}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{loop}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{start}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{loop}\;\Varid{x}\;(\Varid{f},\Varid{k},\Varid{g})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k},\Varid{k}\mathbin{*}((\Varid{x}\mathbin{\uparrow}\mathrm{2})\mathbin{/}((\Varid{g}\mathbin{+}\mathrm{1})\mathbin{*}(\Varid{g}\mathbin{+}\mathrm{2}))),\Varid{g}\mathbin{+}\mathrm{2}){}\<[E]%
+\\
+\>[B]{}\Varid{start}\;\Varid{x}\mathrel{=}(\Varid{x},(\Varid{x}\mathbin{\uparrow}\mathrm{3})\mathbin{/}\mathrm{6},\mathrm{3}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1049,13 +1057,109 @@ Relativamente ao rebuildList, o mesmo itera até à primeira lista do produto es
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{db}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{groupTuples}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\Conid{Delay})\mskip1.5mu]\to [\mskip1.5mu [\mskip1.5mu (\Conid{Segment},\Conid{Delay})\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{groupTuples}\mathrel{=}\Varid{groupBy}\;(\lambda (\Varid{x},\anonymous )\;(\Varid{y},\anonymous )\to \Varid{x}\equiv \Varid{y}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{countOccurrences}\mathbin{::}\Conid{Eq}\;\Varid{a}\Rightarrow \Varid{a}\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{countOccurrences}\;\Varid{x}\mathrel{=}\length \comp \Varid{filter}\;(\equiv \Varid{x}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{dbDistAux}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\Conid{Delay})\mskip1.5mu]\to [\mskip1.5mu (\Conid{Segment},\fun{Dist}\;\Conid{Delay})\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{dbDistAux}\;\Varid{lista}\mathrel{=}\mathbf{do}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{let}\;\Varid{delays}\mathrel{=}\map \;\p2\;\Varid{lista}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{delaysWithout}\mathrel{=}\Varid{nub}\;\Varid{delays}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{tamanho}\mathrel{=}\length \;\Varid{lista}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{probDelay}\;\Varid{delay}\mathrel{=}\Varid{fromIntegral}\;(\Varid{countOccurrences}\;\Varid{delay}\;\Varid{delays})\mathbin{/}\Varid{fromIntegral}\;\Varid{tamanho}{}\<[E]%
+\\
+\>[3]{}\hsindent{4}{}\<[7]%
+\>[7]{}\Varid{distribuicao}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\Varid{delay},\Varid{probDelay}\;\Varid{delay})\mid \Varid{delay}\leftarrow \Varid{delaysWithout}\mskip1.5mu]{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{mkdist}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{delay}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{pdelay}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{return}\;(\p1\;(\Varid{head}\;\Varid{lista}),\Varid{distribuicao}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{dbDist}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\Conid{Delay})\mskip1.5mu]\to [\mskip1.5mu (\Conid{Segment},\fun{Dist}\;\Conid{Delay})\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{dbDist}\;\Varid{list}\mathrel{=}\Varid{concatMap}\;\Varid{dbDistAux}\;(\Varid{groupTuples}\;\Varid{list}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{db}\mathbin{::}[\mskip1.5mu (\Conid{Segment},\fun{Dist}\;\Conid{Delay})\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{db}\mathrel{=}\Varid{dbDist}\;\Varid{dados}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{25}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{delay}\mathbin{::}\Conid{Segment}\to \fun{Dist}\;\Conid{Delay}{}\<[E]%
+\\
+\>[B]{}\Varid{delay}\;\Varid{seg}\mathrel{=}\mathbf{case}\;\Varid{lookup}\;\Varid{seg}\;\Varid{db}\;\mathbf{of}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\Conid{Just}\;\Varid{dist}\to \Varid{dist}{}\<[E]%
+\\
+\>[B]{}\hsindent{15}{}\<[15]%
+\>[15]{}\Conid{Nothing}{}\<[25]%
+\>[25]{}\to \Conid{D}\;[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{pairsAdjacent}\mathbin{::}[\mskip1.5mu \Conid{Stop}\mskip1.5mu]\to [\mskip1.5mu \Conid{Segment}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{pairsAdjacent}\;\Varid{xs}\mathrel{=}\Varid{zip}\;\Varid{xs}\;(\Varid{tail}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{pdelay}\mathbin{::}\Conid{Stop}\to \Conid{Stop}\to \fun{Dist}\;\Conid{Delay}{}\<[E]%
+\\
+\>[B]{}\Varid{pdelay}\;\Varid{s1}\;\Varid{s2}\mathrel{=}\Varid{foldr}\;(\lambda \Varid{seg}\;\Varid{acc}\to \Varid{joinWith}\;(\mathbin{+})\;(\Varid{delay}\;\Varid{seg})\;\Varid{acc})\;(\Conid{D}\;[\mskip1.5mu (\mathrm{0},\mathrm{1})\mskip1.5mu])\;\Varid{segments}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{segments}\mathrel{=}\Varid{pairsAdjacent}\;[\mskip1.5mu \Varid{s1}\mathinner{\ldotp\ldotp}\Varid{s2}\mskip1.5mu]{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 

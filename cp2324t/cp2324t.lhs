@@ -118,7 +118,7 @@
 
 %====== DEFINIR GRUPO E ELEMENTOS =============================================%
 
-\group{G99}
+\group{G04}
 \studentA{A97678}{Ema Maria Monteiro Martins}
 \studentB{A97455}{Henrique Nuno Marinho Malheiro}
 \studentC{A100547}{José Eduardo Silva Monteiro Santos Oliveira}
@@ -790,31 +790,75 @@ rebuildList p = either nil (cond (p.head.p1)
 \end{code}
 
 \subsection*{Problema 3}
+\begin{eqnarray} 
+f \, 0 \, = x \\
+f \, (n+1) \, = (f \, n\,) + (f \, k \,) \\
+k \, 0 \, = \frac{x^3}{6} \\
+k \, (n+1) \, = k \, n \, \cdot \frac{x^2}{((g\, n \,)+1)((g \, n \,)+2)} \\
+g \, 0 \, = 3 \\
+g \, (n+1) \, = (g \, n \,) + 2 \\
+\end{eqnarray}
 
 \begin{code}
-
 snh x = wrapper . worker where
-        worker = for ((loop x)) ((start x))
-        wrapper = undefined
+        worker = for (loop x) (start x)
+        wrapper (a,_,_) = a
 
-loop = undefined
-
-start = undefined
-
+loop x (f,k,g)= (f + k,k * ((x^2)/((g+1)*(g+2))),g+2)
+start x = (x,(x^3)/6,3)
 \end{code}
 
 \subsection*{Problema 4}
 
 \begin{code}
+groupTuples :: [(Segment, Delay)] -> [[(Segment, Delay)]]
+groupTuples = groupBy (\(x, _) (y, _) -> x == y)
+\end{code}
 
-db = undefined
+\begin{code}
+countOccurrences :: Eq a => a -> [a] -> Int
+countOccurrences x = length . filter (== x)
+\end{code}
 
-mkdist = undefined
+\begin{code}
+dbDistAux :: [(Segment, Delay)] -> [(Segment, Dist Delay)]
+dbDistAux lista = do
+  let delays = map snd lista
+      delaysWithout = nub delays
+      tamanho = length lista
+      probDelay delay = fromIntegral (countOccurrences delay delays) / fromIntegral tamanho
+      distribuicao = D [(delay,probDelay delay) | delay <- delaysWithout]
 
-delay = undefined
+  return (fst (head lista), distribuicao)
+\end{code}
 
-pdelay = undefined
+\begin{code}
+dbDist :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
+dbDist list = concatMap dbDistAux (groupTuples list)
+\end{code}
 
+\begin{code}
+db :: [(Segment,Dist Delay)]
+db = dbDist dados
+\end{code}
+
+\begin{code}
+delay :: Segment -> Dist Delay
+delay seg = case lookup seg db of
+              Just dist -> dist
+              Nothing   -> D [] 
+\end{code}
+
+\begin{code}
+pairsAdjacent :: [Stop] -> [Segment]
+pairsAdjacent xs = zip xs (tail xs)
+\end{code}
+
+\begin{code}
+pdelay :: Stop -> Stop -> Dist Delay
+pdelay s1 s2 = foldr (\seg acc -> joinWith (+) (delay seg) acc) (D [(0,1)]) segments
+  where
+    segments = pairsAdjacent [s1..s2]
 \end{code}
 
 %----------------- Índice remissivo (exige makeindex) -------------------------%
