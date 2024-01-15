@@ -20,14 +20,16 @@ groupTuples :: [(Segment, Delay)] -> [[(Segment, Delay)]]
 groupTuples = groupBy (\(x, _) (y, _) -> x == y)
 
 
-dbDistAux :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
-dbDistAux lista = [(fst (head lista),distribuicao)]
-  where
-    delays = map snd lista
-    delaysWithout = nub delays
-    tamanho = length lista
-    countOccurrences item list = length (filter (== item) list)
-    distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
+dbDistAux :: [(Segment, Delay)] -> [(Segment, Dist Delay)]
+dbDistAux lista = do
+  let delays = map snd lista
+      delaysWithout = nub delays
+      tamanho = length lista
+
+  let countOccurrences item list = length (filter (== item) list)
+      distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
+
+  return (fst (head lista), distribuicao)
 
 
 dbDist :: [(Segment, Delay)] -> [(Segment,Dist Delay)]
