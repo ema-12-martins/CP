@@ -48,6 +48,12 @@ delay seg = case lookup seg db of
               Nothing   -> D [] 
 
 
+pairsAdjacent :: [Stop] -> [Segment]
+pairsAdjacent xs = zip xs (tail xs)
+
+
 --Dar a distribuicao de delay entre duas paragens
 pdelay :: Stop -> Stop -> Dist Delay
-pdelay s1 s2 = delay (s1,s2)
+pdelay s1 s2 = foldr (\seg acc -> joinWith (+) (delay seg) acc) (D [(0,1)]) segments
+  where
+    segments = pairsAdjacent [s1..s2]
