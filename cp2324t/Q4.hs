@@ -19,14 +19,14 @@ dados = [((S0,S1),0),((S0,S1),2),((S0,S1),0),((S0,S1),3),((S0,S1),3),
 groupTuples :: [(Segment, Delay)] -> [[(Segment, Delay)]]
 groupTuples = groupBy (\(x, _) (y, _) -> x == y)
 
+countOccurrences :: Eq a => a -> [a] -> Int
+countOccurrences x = length . filter (== x)
 
 dbDistAux :: [(Segment, Delay)] -> [(Segment, Dist Delay)]
 dbDistAux lista = do
   let delays = map snd lista
       delaysWithout = nub delays
       tamanho = length lista
-
-  let countOccurrences item list = length (filter (== item) list)
       distribuicao = D [(delay, fromIntegral (countOccurrences delay delays) / fromIntegral tamanho) | delay <- delaysWithout]
 
   return (fst (head lista), distribuicao)
