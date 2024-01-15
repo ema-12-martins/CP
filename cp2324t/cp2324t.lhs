@@ -681,13 +681,20 @@ instantaneous = D [ (0,1) ]
            \ar[d]_{|rotl|}
            \ar[r]^-{|outList|}
 &
-     1 + A^* X (A^*)^* 
-           \ar[d]^-{|id + id X rotl|}
+     1 + A^* \, X \, (A^*)^* 
+           \ar[d]^-{id + id \, X \, rotl}
 \\
-     1 + A^* X (A^*)^*
+     1 + A^* \, X \, (A^*)^*
+          \ar[d]_-{|matrot|}
 &
      (A^*)^*
            \ar[l]^-{|inList|}
+           \ar[d]^-{id + id \, X \, matrot}
+\\
+     A^*
+&
+     1 + A^* \, X \, A^*
+          \ar[l]^-{|[nil,conc]|} 
 }
 \end{eqnarray*}
 

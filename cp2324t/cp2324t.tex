@@ -890,13 +890,20 @@ Ausência de qualquer atraso:
            \ar[d]_{\ensuremath{\Varid{rotl}}}
            \ar[r]^-{\ensuremath{\Varid{outList}}}
 &
-     1 + A^* X (A^*)^* 
-           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}\;\Conid{X}\;\Varid{rotl}}}
+     1 + A^* \, X \, (A^*)^* 
+           \ar[d]^-{id + id \, X \, rotl}
 \\
-     1 + A^* X (A^*)^*
+     1 + A^* \, X \, (A^*)^*
+          \ar[d]_-{\ensuremath{\Varid{matrot}}}
 &
      (A^*)^*
            \ar[l]^-{\ensuremath{\Varid{inList}}}
+           \ar[d]^-{id + id \, X \, matrot}
+\\
+     A^*
+&
+     1 + A^* \, X \, A^*
+          \ar[l]^-{\ensuremath{[\mskip1.5mu \Varid{nil},\mathsf{conc}\mskip1.5mu]}} 
 }
 \end{eqnarray*}
 
