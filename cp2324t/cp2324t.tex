@@ -913,7 +913,12 @@ Ausência de qualquer atraso:
 \>[B]{}\Varid{rotl}\mathbin{::}[\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{rotl}\mathrel{=}\Varid{transpose}\comp \map \;\Varid{reverse}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{matrot}\mathbin{::}\Conid{Eq}\;\Varid{a}\Rightarrow [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{matrot}\mathrel{=}\Varid{hyloList}\;\alt{\Varid{nil}}{\mathsf{conc}}\;(\Varid{recList}\;\Varid{rotl}\comp \Varid{outList}){}\<[E]%
@@ -921,17 +926,52 @@ Ausência de qualquer atraso:
 \end{hscode}\resethooks
 
 \subsection*{Problema 2}
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    & 
+    A^* \ar[ld]_{id} \ar[d]_{<id,id>} \ar[rd]^{id} 
+    \\
+    D \ar[r]_{p1} 
+    & 
+    C  
+    &
+    B \ar[l]^{p2}
+}
+\end{eqnarray*}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{reverseVowels}\mathbin{::}\Conid{String}\to \Conid{String}{}\<[E]%
-\\
-\>[B]{}\Varid{reverseVowels}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
 \>[B]{}\Varid{reverseByPredicate}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
-\>[B]{}\Varid{reverseByPredicate}\;\Varid{p}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{reverseByPredicate}\;\Varid{p}\mathrel{=}\Varid{rebuildList}\;\Varid{p}\comp (\Varid{id}\times\Varid{filter}\;\Varid{p})\comp \conj{\Varid{id}}{\Varid{id}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{outTupleList}\mathbin{::}([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu])\to ()+([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{outTupleList}\;([\mskip1.5mu \mskip1.5mu],\anonymous )\mathrel{=}i_1\;(){}\<[E]%
+\\
+\>[B]{}\Varid{outTupleList}\;(\Varid{list1},\Varid{list2})\mathrel{=}i_2\;(\Varid{list1},\Varid{list2}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{rebuildList}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to ([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu])\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{rebuildList}\;\Varid{p}\mathrel{=}\alt{\Varid{nil}}{\Varid{cond}\;(\Varid{p}\comp \Varid{head}\comp \p1){}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{cons}\comp (\Varid{last}\times\Varid{rebuildList}\;\Varid{p}\comp (\Varid{tail}\times\Varid{init}))\comp \conj{\p2}{\Varid{id}}){}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}(\Varid{cons}\comp (\Varid{head}\times\Varid{rebuildList}\;\Varid{p}\comp (\Varid{tail}\times\Varid{id}))\comp \conj{\p1}{\Varid{id}})}\comp \Varid{outTupleList}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
