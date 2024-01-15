@@ -727,6 +727,50 @@ matrot = hyloList (either nil conc) (recList rotl.outList)
 }
 \end{eqnarray*}
 
+Relativamente ao rebuildList, o mesmo itera até à primeira lista do produto estar vazia (através do outTupleList). Nas suas iterações, verifica o predicado para a cabeça da primeira lista, fazendo o primeiro diagrama caso o cumpra, e o segundo caso contrário.
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    & 
+    A^* \, X \, A^* \ar[ld]_{p2} \ar[d]_{<p2,id>} \ar[rd]^{id} 
+    \\
+     A^*\ar[r]_{p1} 
+    & 
+    A^* \, X \,(A^* \, X \, A^*) \ar[d]_{tail \, X \, rebuildList \, p \,}
+    &
+    A^* \, X \, A^* \ar[l]^{p2}
+    \\
+     &
+     A^* \, X \, A^* \ar[d]_{last \, X \, init}
+     \\
+     &
+     A \, X \, A^* \ar[d]_{cons}
+     \\
+     & A^*
+}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    & 
+    A^* \, X \, A^* \ar[ld]_{p1} \ar[d]_{<p1,id>} \ar[rd]^{id} 
+    \\
+     A^*\ar[r]_{p1} 
+    & 
+    A^* \, X \,(A^* \, X \, A^*) \ar[d]_{tail \, X \, rebuildList \, p \,}
+    &
+    A^* \, X \, A^* \ar[l]^{p2}
+    \\
+     &
+     A^* \, X \, A^* \ar[d]_{head \, X \, id}
+     \\
+     &
+     A \, X \, A^* \ar[d]_{cons}
+     \\
+     & A^*
+}
+\end{eqnarray*}
+
+
 \begin{code}
 reverseByPredicate :: (a -> Bool) -> [a] -> [a]
 reverseByPredicate p = rebuildList p.(id><filter p).split id id
